@@ -14,8 +14,28 @@ vector<string> separar(string linea);
 int main(int argc, char const *argv[])
 {
     ifstream entrada;
-    entrada.open("DatosPeliculas.csv");
 
+    // Excepciones
+    // entrada.flags(ios_base::failbit);
+    entrada.exceptions(ifstream::failbit);
+
+    try
+    {
+        entrada.open("DatosPeliculas.csv");
+    }
+    catch (ifstream::failure &e)
+    {
+        cout << "ERROR excepcion al abrir el archivo" << endl;
+        return -1;
+    }
+    /*
+        //Manejo normal de error
+        if(entrada.fail())
+        {
+            cout << "Error, no puedo leer el archivo..." << endl;
+            return -1;
+        }
+    */
     string linea;
     int numeroLinea = 1;
 
@@ -26,12 +46,12 @@ int main(int argc, char const *argv[])
         if (datos.size() == 6)
         {
             cout << "Pelicula: ";
-            //new Pelicula(datos); //Hacer un constructor en pelicula que reciba un vector
-    
-        } else
+            // new Pelicula(datos); //Hacer un constructor en pelicula que reciba un vector
+        }
+        else
         {
             cout << "Episodio: ";
-            //new Episodio(datos); //Hacer un constructor en episodio que reciba un vector
+            // new Episodio(datos); //Hacer un constructor en episodio que reciba un vector
         }
         cout << endl;
         // cout << (numeroLinea++) << ": " <<linea << endl;
@@ -44,8 +64,15 @@ int main(int argc, char const *argv[])
         }
         */
     }
-
-    entrada.close();
+    try
+    {
+        entrada.close();
+    }
+    catch (ifstream::failure &e)
+    {
+        cout << "ERROR al procesar el archivo" << endl;
+        return -1;
+    }
 
     return 0;
 }
@@ -61,10 +88,24 @@ vector<string> separar(string linea)
         if (dato != "" & dato != "\n" && dato != "\r")
         {
             cout << dato << numeroTokens << endl;
-            tokens.push_back(dato);     //Guarda en el vector
+            tokens.push_back(dato); // Guarda en el vector
             numeroTokens++;
         }
     }
+    bool incorrecto = true;
+    while (incorrecto)
+    {
+        try
+        {
+            cout << "tokens: " << tokens.at(tokens.size()) << endl;
+            incorrecto = false;
+        }
+        catch (out_of_range &e)
+        {
+            cout << "Indice incorrecto" << endl;
+            incorrecto = true;
+        }
+    }
     return tokens;
-    //cout << "Tokens: " << numeroTokens << endl << endl;
+    // cout << "Tokens: " << numeroTokens << endl << endl;
 }
