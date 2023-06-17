@@ -7,8 +7,9 @@ using std::string;
 #include <vector>
 using namespace std;
 
-class Video {
-private:
+class Video
+{
+protected:
     string id;
     string nombre;
     double duracion;
@@ -17,9 +18,8 @@ private:
     string fechaEstreno;
 
 public:
-    Video();
     // Constructor que recibe todos los parámetros
-    Video(string id,string nombre,double duracion,string genero,double calificacion,string fechaEstreno);
+    Video(string id, string nombre, double duracion, string genero, double calificacion, string fechaEstreno);
 
     // Getters para acceder a nuestras variables
     string getId();
@@ -28,7 +28,8 @@ public:
     string getGenero();
     double getCalificacion();
     string getFechaEstreno();
-
+    virtual void verVideo();
+    void setCalificacion(double calificacion);
 };
 
 #endif
